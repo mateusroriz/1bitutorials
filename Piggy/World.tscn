@@ -1,35 +1,41 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Pig.png" type="Texture" id=1]
-[ext_resource path="res://Pig.gd" type="Script" id=2]
-
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 6.0
-height = 7.0
+[ext_resource path="res://Pig.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Apple.tscn" type="PackedScene" id=2]
 
 [node name="World" type="Node"]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
-[node name="Pig" type="Area2D" parent="."]
-position = Vector2( 84.1694, 45.4697 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="Pig" parent="." instance=ExtResource( 1 )]
+position = Vector2( 154.002, 66.9715 )
 
-[node name="Sprite" type="Sprite" parent="Pig"]
-texture = ExtResource( 1 )
-offset = Vector2( 0, -4 )
-hframes = 3
+[node name="Apple" parent="." instance=ExtResource( 2 )]
+position = Vector2( 189.914, 110.648 )
 
-[node name="Collision" type="CollisionShape2D" parent="Pig"]
-rotation = 1.5708
-shape = SubResource( 1 )
+[node name="Apple2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 250.739, 45.2947 )
+
+[node name="Apple3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 116.796, 73.1186 )
+
+[node name="Apple4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 64.3832, 33.324 )
+
+[node name="Apple5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 45.6182, 118.09 )
+
+[node name="Apple6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 113.237, 155.62 )
+
+[node name="Apple7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 237.15, 146.561 )
+
+[node name="Apple8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 265.621, 88.6482 )
