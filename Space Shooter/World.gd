@@ -11,3 +11,8 @@ func set_score(value):
 #func _on_Enemy_score_up():
 #	self.score +=1 #needs self because to avoid looping
 #
+
+
+func _on_Ship_player_death():
+	yield(get_tree().create_timer(1), "timeout") #create a timer and wait till its done
+	get_tree().change_scene("res://GameOverScreen.tscn")
