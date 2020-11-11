@@ -3,19 +3,47 @@ extends KinematicBody2D
 export (int) var ACCELERATION =512
 export (int) var MAX_SPEED = 64
 export (float) var FRICTION = 0.25
+export (int) var GRAVITY = 200
+export (int) var JUMP_FORCE = 128
+export (int) var MAX_SLOPE_ANGLE = 46
 
 var motion  = Vector2.ZERO
 
 
 func _physics_process(delta):
+	var input_vector = get_input_vector()
+	apply_horizontal_force(input_vector, delta)
+	apply_friction(input_vector)
+	jump_check()
+	move()
+	apply_gravity(delta)
+
+func get_input_vector():
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	
-	if input_vector != Vector2.ZERO: #there are buttons being pressed
-		motion += input_vector * ACCELERATION * delta
-		motion = motion.clamped(MAX_SPEED)
+	return input_vector
+
+func apply_horizontal_force(input_vector, delta):
+	if input_vector.x !=0:
+		motion.x += input_vector.x * ACCELERATION *delta
+		motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
+
+func apply_friction(input_vector):
+	if input_vector.x == 0 and is_on_floor(): #no buttons pressed
+		motion.x = lerp(motion.x, 0, FRICTION)
+
+func jump_check():
+	if is_on_floor():
+		if Input.is_action_just_pressed("ui_up"):
+			motion.y = -JUMP_FORCE
 	else:
-		motion = motion.linear_interpolate(Vector2.ZERO, FRICTION) #this is our friction we recude speed when not moving
+		if Input.is_action_just_released("ui_up") and motion.y < -JUMP_FORCE/2: #this makes sure the character is still going up and can't double jump
+			motion.y = -JUMP_FORCE/2 #cutting the jump force
 		
-	motion = move_and_slide(motion)
+func apply_gravity(delta):
+#	if not is_on_floor():
+	motion.y += GRAVITY * delta
+	motion.y = min(motion.y, JUMP_FORCE) #this prevents so we can't fall faster than the jump force
+
+func move():
+	motion = move_and_slide(motion, Vector2.UP) #passing vector 2 tells where the floor is facing

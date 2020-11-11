@@ -5,6 +5,9 @@
 
 [node name="World" type="Node"]
 
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 64 )
+
 [node name="Brick2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 112, 112 )
 
@@ -16,9 +19,6 @@ position = Vector2( 80, 96 )
 
 [node name="Brick8" parent="." instance=ExtResource( 1 )]
 position = Vector2( 64, 96 )
-
-[node name="Player" parent="Brick8" instance=ExtResource( 2 )]
-position = Vector2( -16, -32 )
 
 [node name="Brick4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 48, 112 )
