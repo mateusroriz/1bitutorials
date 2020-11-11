@@ -32,9 +32,9 @@ __meta__ = {
 }
 
 [node name="HighscoreLabel" type="Label" parent="."]
-margin_left = 144.163
+margin_left = 139.004
 margin_top = 93.3213
-margin_right = 184.163
+margin_right = 183.004
 margin_bottom = 107.321
 custom_fonts/font = ExtResource( 2 )
 text = "Highscore: 0"
@@ -45,9 +45,9 @@ __meta__ = {
 }
 
 [node name="EscapeLabel" type="Label" parent="."]
-margin_left = 86.0972
+margin_left = 78.557
 margin_top = 154.724
-margin_right = 245.097
+margin_right = 237.557
 margin_bottom = 168.724
 custom_fonts/font = ExtResource( 2 )
 text = "Press escape to return to the main menu"
