@@ -69,10 +69,12 @@ func apply_gravity(delta):
 		motion.y = min(motion.y, JUMP_FORCE)  #this prevents so we can't fall faster than the jump force
 
 func update_animations(input_vector):
+	sprite.scale.x = sign(get_local_mouse_position().x) #has to be outside loop to be all the time
 	if input_vector.x != 0:
-		sprite.scale.x = sign(input_vector.x)
 		spriteAnimator.play("Run")
+		spriteAnimator.playback_speed = input_vector.x *sprite.scale.x       #playing animation in reverse for walking backwards
 	else:
+		spriteAnimator.playback_speed = 1 #setting playback speed to normal
 		spriteAnimator.play("Idle")
 	
 	if not is_on_floor():
