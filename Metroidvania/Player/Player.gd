@@ -18,6 +18,7 @@ var invincible = false setget set_invincible
 var motion = Vector2.ZERO
 var snap_vector = Vector2.ZERO
 var just_jumped = false
+var double_jump = true
 
 onready var sprite = $Sprite
 onready var spriteAnimator = $SpriteAnimator
@@ -80,13 +81,22 @@ func update_snap_vector():
 func jump_check():
 	if is_on_floor() or coyoteJumpTimer.time_left >0:
 		if Input.is_action_just_pressed("ui_up"):
-			Utils.instance_scene_on_main(JumpEffect,global_position)
-			motion.y = -JUMP_FORCE
+			jump(JUMP_FORCE)
 			just_jumped = true
-			snap_vector = Vector2.ZERO  # if we are jumping snap vector becomes zero
 	else:
 		if Input.is_action_just_released("ui_up") and motion.y < -JUMP_FORCE/2: #this makes sure the character is still going up and can't double jump
 			motion.y = -JUMP_FORCE/2;  #cutting the jump force
+		
+		if Input.is_action_just_pressed("ui_up") and double_jump == true: #double jump code
+			jump(JUMP_FORCE * .75)
+			double_jump = false
+			
+	
+func jump(force):
+	Utils.instance_scene_on_main(JumpEffect,global_position)
+	motion.y = -force
+	snap_vector = Vector2.ZERO  # if we are jumping snap vector becomes zero
+	
 
 func apply_gravity(delta):
 	if not is_on_floor():
@@ -117,6 +127,7 @@ func move():
 	if was_in_air and is_on_floor():
 		motion.x = last_motion.x
 		Utils.instance_scene_on_main(JumpEffect,global_position)
+		double_jump = true
 	
 	# Just left ground
 	if was_on_floor and not is_on_floor() and not just_jumped:
