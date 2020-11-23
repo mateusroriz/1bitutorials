@@ -4,11 +4,10 @@
 [ext_resource path="res://Enemies/FlyingEnemy.png" type="Texture" id=2]
 [ext_resource path="res://Enemies/FlyingEnemy.gd" type="Script" id=3]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=1]
 radius = 4.99044
 
-[sub_resource type="Animation" id=1]
-resource_name = "Fly"
+[sub_resource type="Animation" id=2]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -41,17 +40,22 @@ hframes = 6
 frame = 1
 
 [node name="Collider" parent="." index="1"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" parent="." index="2"]
 autoplay = "Fly"
-anims/Fly = SubResource( 1 )
+anims/Fly = SubResource( 2 )
 
 [node name="Collider" parent="Hurtbox" index="0"]
 shape = SubResource( 3 )
 
 [node name="Collider" parent="Hitbox" index="0"]
 shape = SubResource( 4 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="6"]
+position = Vector2( 3.57628e-07, -1.61475 )
+scale = Vector2( 0.743867, 0.782844 )
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 
 [editable path="Hurtbox"]
 
