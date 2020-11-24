@@ -4,6 +4,7 @@ const DustEffect = preload("res://Effects/DustEffect.tscn")
 const PlayerBullet = preload("res://Player/PlayerBullet.tscn")
 const JumpEffect = preload("res://Effects/JumpEffect.tscn")
 const WallDustEffect = preload("res://Effects/WallDustEffect.tscn")
+const PlayerMissile = preload("res://Player/PlayerMissile.tscn")
 
 var PlayerStats = ResourceLoader.PlayerStats
 var MainInstances = ResourceLoader.MainInstances
@@ -17,6 +18,7 @@ export (int) var MAX_WALL_SLIDE_SPEED = 128
 export (int) var JUMP_FORCE = 128
 export (int) var MAX_SLOPE_ANGLE = 46
 export (int) var BULLET_SPEED = 250
+export (int) var MISSILE_BULLET_SPEED = 150
 
 enum{
 	MOVE,
@@ -78,6 +80,9 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("fire") and fireBulletTimer.time_left == 0:
 		fire_bullet()
+	
+	if Input.is_action_just_pressed("fire_missile") and fireBulletTimer.time_left == 0:
+		fire_missile()
 
 func fire_bullet():
 	var bullet = Utils.instance_scene_on_main(PlayerBullet, muzzle.global_position)
@@ -86,6 +91,14 @@ func fire_bullet():
 	bullet.rotation = bullet.velocity.angle()
 	fireBulletTimer.start()
 	
+func fire_missile():
+	var missile = Utils.instance_scene_on_main(PlayerMissile, muzzle.global_position)
+	missile.velocity = Vector2.RIGHT.rotated(gun.rotation) * MISSILE_BULLET_SPEED
+	missile.velocity.x *= sprite.scale.x
+	motion -= missile.velocity * 0.25  #this is the player motion and pushes the player the oposite direction the missile is going
+	missile.rotation = missile.velocity.angle()
+	fireBulletTimer.start()
+
 func create_dust_effect():
 	var dust_position = global_position
 	dust_position.x += rand_range(-4,4)
@@ -135,7 +148,9 @@ func apply_gravity(delta):
 		motion.y = min(motion.y, JUMP_FORCE)  #this prevents so we can't fall faster than the jump force
 
 func update_animations(input_vector):
-	sprite.scale.x = sign(get_local_mouse_position().x) #has to be outside loop to be all the time
+	var facing = sign(get_local_mouse_position().x)
+	if facing != 0:
+		sprite.scale.x = facing #has to be outside loop to be all the time
 	if input_vector.x != 0:
 		spriteAnimator.play("Run")
 		spriteAnimator.playback_speed = input_vector.x *sprite.scale.x       #playing animation in reverse for walking backwards
