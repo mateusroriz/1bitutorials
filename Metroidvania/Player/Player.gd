@@ -39,6 +39,7 @@ onready var coyoteJumpTimer = $CoyoteJumpTimer
 onready var gun = $Sprite/PlayerGun
 onready var muzzle = $Sprite/PlayerGun/Sprite/Muzzle
 onready var fireBulletTimer = $FireBulletTimer 
+onready var powerupDetector = $PowerUpDetector
 
 func set_invincible(value):
 	invincible = value
@@ -82,9 +83,10 @@ func _physics_process(delta):
 		fire_bullet()
 	
 	if Input.is_action_just_pressed("fire_missile") and fireBulletTimer.time_left == 0:
-		if PlayerStats.missiles >0:
+		if PlayerStats.missiles >0 and PlayerStats.missiles_unlocked:
 			fire_missile()
 			PlayerStats.missiles -=1
+
 
 func fire_bullet():
 	var bullet = Utils.instance_scene_on_main(PlayerBullet, muzzle.global_position)
@@ -236,3 +238,8 @@ func _on_Hurtbox_hit(damage):
 
 func _on_died():
 		queue_free()
+
+
+func _on_PowerUpDetector_area_entered(area):
+	if area is Powerup: #checking for class name
+		area._pickup()
