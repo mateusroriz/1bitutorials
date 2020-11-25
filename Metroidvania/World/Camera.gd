@@ -5,8 +5,10 @@ var shake = 0
 onready var timer = $Timer
 
 func _ready():
+# warning-ignore:return_value_discarded
 	Events.connect("add_screenshake", self, "_on_Events_add_screnshake") #connecting a signal to a func in here
 
+# warning-ignore:unused_argument
 func _process(delta):
 	offset_h = rand_range(-shake, shake)
 	offset_v = rand_range(-shake, shake)
