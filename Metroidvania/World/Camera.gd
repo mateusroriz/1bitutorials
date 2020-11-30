@@ -1,5 +1,7 @@
 extends Camera2D
 
+var MainInstances = ResourceLoader.MainInstances
+
 var shake = 0 
 
 onready var timer = $Timer
@@ -7,6 +9,10 @@ onready var timer = $Timer
 func _ready():
 # warning-ignore:return_value_discarded
 	Events.connect("add_screenshake", self, "_on_Events_add_screnshake") #connecting a signal to a func in here
+	MainInstances.WorldCamera = self
+
+func _exit_tree():
+	MainInstances.WorldCamera = null
 
 # warning-ignore:unused_argument
 func _process(delta):
