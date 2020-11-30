@@ -20,7 +20,7 @@ func load_game():
 	var persistingNodes = get_tree().get_nodes_in_group("Persists")
 	for node in persistingNodes:
 		node.queue_free() #clearing all the nodes so we recreate them
-
+	
 	save_game.open("user://savegame.save", File.READ)
 	while not save_game.eof_reached(): #continue until we reach end of file
 		var current_line = parse_json(save_game.get_line())
