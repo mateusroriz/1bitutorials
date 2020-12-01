@@ -10,6 +10,10 @@ onready var leftWallCheck = $LeftWallCheck
 
 signal died 
 
+func _ready():
+	if SaverAndLoader.custom_data.boss_defeated:
+		queue_free() #destroying the boss if there is a save file that he died
+
 func _process(delta):
 	chase_player(delta)
 	
@@ -36,6 +40,7 @@ func fire_bullet() -> void:
 
 func _on_EnemyStats_enemy_died(): 
 	emit_signal("died")
+	SaverAndLoader.custom_data.boss_defeated = true 
 	._on_EnemyStats_enemy_died()
 
 
