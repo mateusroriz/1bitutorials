@@ -13,7 +13,8 @@ func _ready():
 		SaverAndLoader.is_loading = false
 	
 	MainInstances.Player.connect("hit_door", self, "_on_Player_hit_door")
-	
+	MainInstances.Player.connect("player_died", self, "_on_Player_player_died")
+
 func change_levels(door):
 	var offset = currentLevel.position #getting the position of the current level
 	currentLevel.queue_free()
