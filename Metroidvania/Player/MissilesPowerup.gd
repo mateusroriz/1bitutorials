@@ -5,5 +5,6 @@ func _ready():
 		queue_free() #deleting this powerup not the one saved
 
 func _pickup():
+	._pickup()
 	PlayerStats.missiles_unlocked = true
 	queue_free()

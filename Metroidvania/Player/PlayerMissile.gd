@@ -4,6 +4,9 @@ const EnemyDeathEffect = preload("res://Effects/EnemyDeathEffect.tscn")
 
 const BRICK_LAYER_BIT = 4 
 
+func _ready():
+	SoundFx.play("Explosion")
+
 func _on_Hitbox_body_entered(body): 
 	if body.get_collision_layer_bit(BRICK_LAYER_BIT): #is the body on this collision layer return true or false
 		body.queue_free() #if its a brick destroy it
