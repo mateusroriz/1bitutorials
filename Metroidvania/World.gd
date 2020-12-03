@@ -34,3 +34,7 @@ func get_door_with_connection(notDoor, connection):
 func _on_Player_hit_door(door):
 	call_deferred("change_levels", door) #it wait until the process is done to call this function
 
+
+func _on_Player_player_died():
+	yield(get_tree().create_timer(1.0), "timeout") #waiting a second
+	get_tree().change_scene("res://Menus/GameOverMenu.tscn")
