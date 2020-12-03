@@ -122,7 +122,7 @@ func fire_missile():
 
 
 func create_dust_effect():
-	SoundFx.play("Step", rand_range(0.6, 1.2) -10)
+	SoundFx.play("Step", rand_range(0.6, 1.2), -10)
 	var dust_position = global_position
 	dust_position.x += rand_range(-4,4)
 	Utils.instance_scene_on_main(DustEffect, dust_position)
